@@ -1,6 +1,7 @@
 package com.example.greenenergyweek910;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -45,7 +46,7 @@ public class GreenEnergyApplication extends Application {
         MenuButton menuButton = new MenuButton("Anlæg", null, flagNumber1,flagNumber2,flagNumber3,flagNumber4,flagNumber5,flagNumber6,flagNumber7,flagNumber8,flagNumber9,flagNumber10,
                 flagNumber11,flagNumber12,flagNumber13,flagNumber14,flagNumber15,flagNumber16,flagNumber17,flagNumber18,flagNumber19,flagNumber20);
 
-        gridPane.add(menuButton,1,0,1,1);
+
 
 
 
@@ -147,9 +148,10 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("22:00"  , 0));
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
         barChart.getData().add(dataSeries1);
-        barChart.setMinSize(900,450);
-        gridPane.add(barChart,1,2,2,1);
-
+      //  barChart.setMinSize(900,450);
+        gridPane.add(barChart,3,3,3,3);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.add(menuButton,0,0,1,1);
 
     }
 
