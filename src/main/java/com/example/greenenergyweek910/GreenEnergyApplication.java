@@ -3,6 +3,10 @@ package com.example.greenenergyweek910;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -42,6 +46,9 @@ public class GreenEnergyApplication extends Application {
                 flagNumber11,flagNumber12,flagNumber13,flagNumber14,flagNumber15,flagNumber16,flagNumber17,flagNumber18,flagNumber19,flagNumber20);
 
         gridPane.add(menuButton,1,0,1,1);
+
+
+
 //        ListView<String> solarPanelSites = new ListView<String>();
 //        solarPanelSites.getItems().add("Anlæg nummer 1 ");
 //        solarPanelSites.getItems().add("Anlæg nummer 2 ");
@@ -104,7 +111,44 @@ public class GreenEnergyApplication extends Application {
         //gridPane.addColumn();
         //gridPane.addRow();
 
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Klokken");
 
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("KW/T");
+
+        BarChart barChart = new BarChart(xAxis, yAxis);
+
+        XYChart.Series dataSeries1 = new XYChart.Series();
+        dataSeries1.setName("Januar");
+
+        dataSeries1.getData().add(new XYChart.Data("00:00", 0));
+        dataSeries1.getData().add(new XYChart.Data("01:00"  , 0));
+        dataSeries1.getData().add(new XYChart.Data("02:00"  , 0));
+        dataSeries1.getData().add(new XYChart.Data("03:00", 0));
+        dataSeries1.getData().add(new XYChart.Data("04:00"  , 0));
+        dataSeries1.getData().add(new XYChart.Data("05:00"  , 0));
+        dataSeries1.getData().add(new XYChart.Data("06:00", 0));
+        dataSeries1.getData().add(new XYChart.Data("07:00"  , 5));
+        dataSeries1.getData().add(new XYChart.Data("08:00"  , 10));
+        dataSeries1.getData().add(new XYChart.Data("09:00", 15));
+        dataSeries1.getData().add(new XYChart.Data("10:00"  , 25));
+        dataSeries1.getData().add(new XYChart.Data("11:00"  , 40));
+        dataSeries1.getData().add(new XYChart.Data("12:00", 100));
+        dataSeries1.getData().add(new XYChart.Data("13:00"  , 150));
+        dataSeries1.getData().add(new XYChart.Data("14:00"  , 250));
+        dataSeries1.getData().add(new XYChart.Data("15:00", 150));
+        dataSeries1.getData().add(new XYChart.Data("16:00"  , 100));
+        dataSeries1.getData().add(new XYChart.Data("17:00"  , 40));
+        dataSeries1.getData().add(new XYChart.Data("18:00", 25));
+        dataSeries1.getData().add(new XYChart.Data("19:00"  , 20));
+        dataSeries1.getData().add(new XYChart.Data("20:00"  , 10));
+        dataSeries1.getData().add(new XYChart.Data("21:00", 0));
+        dataSeries1.getData().add(new XYChart.Data("22:00"  , 0));
+        dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
+        barChart.getData().add(dataSeries1);
+        barChart.setMinSize(900,450);
+        gridPane.add(barChart,1,2,2,1);
 
 
     }
