@@ -1,6 +1,7 @@
 package com.example.greenenergyweek910;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -47,58 +48,20 @@ public class GreenEnergyApplication extends Application {
                 flagNumber11,flagNumber12,flagNumber13,flagNumber14,flagNumber15,flagNumber16,flagNumber17,flagNumber18,flagNumber19,flagNumber20);
 
 
-
-
-
-//        ListView<String> solarPanelSites = new ListView<String>();
-//        solarPanelSites.getItems().add("Anlæg nummer 1 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 2 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 3 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 4 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 5 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 6 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 7 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 8 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 9 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 10 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 11 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 12 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 13 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 14 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 15 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 16 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 17 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 18 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 19 ");
-//        solarPanelSites.getItems().add("Anlæg nummer 20 ");
-//
-//
-//        Button chooseData = new Button("Vis data fra dette site");
-//
-//        chooseData.setOnAction(event -> {
-//            ObservableList<Integer> selectedIndices = solarPanelSites.getSelectionModel().getSelectedIndices();
-//
-//            for(Object o : selectedIndices){
-//                System.out.println("o = " + o + " (" + o.getClass() + ")");
-//            }
-//        });
-
         stage.setTitle("Green Energy");
         stage.setScene(scene);
         stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\download.jpg")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         stage.show();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        stage.setWidth(1000);
-        stage.setHeight(600);
+        gridPane.setHgap(50);
+        gridPane.setVgap(50);
+        stage.setWidth(1100);
+        stage.setHeight(800);
 
        // Makes sure the program starts in the middle of the screen
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
 
-//        gridPane.add(solarPanelSites,1,0,1,1);
-//        gridPane.add(chooseData,1,1,1,1);
 
 
 
@@ -148,9 +111,9 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("22:00"  , 0));
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
         barChart.getData().add(dataSeries1);
-      //  barChart.setMinSize(900,450);
+        barChart.setMinSize(900,450);
         gridPane.add(barChart,3,3,3,3);
-        gridPane.setAlignment(Pos.CENTER);
+        //gridPane.setAlignment(Pos.CENTER);
         gridPane.add(menuButton,0,0,1,1);
 
     }
