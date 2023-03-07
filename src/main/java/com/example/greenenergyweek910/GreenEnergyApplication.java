@@ -19,12 +19,39 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+
+        String data = "";
+        String id = "";
+        String tidOgDato = "";
+        String sId = "";
+        String total = "";
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] parts = line.split("\t");
+                id = parts[0];
+                tidOgDato = parts[1];
+                sId = parts[2];
+                total = parts[3];
+                // Do something with the data here
+                line = reader.readLine();
+
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         GridPane gridPane = new GridPane();
         //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
@@ -39,6 +66,14 @@ public class GreenEnergyApplication extends Application {
         stage.show();
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
+        buttomVbox.setAlignment(Pos.CENTER);
+        gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.TOP_LEFT);
+
+
+
+
+        //Menu stuff
 
         MenuItem flagNumber1 = new MenuItem("Anlæg Nummer 1 ");
         MenuItem flagNumber2 = new MenuItem("Anlæg Nummer 2 ");
@@ -78,6 +113,7 @@ public class GreenEnergyApplication extends Application {
         slider.setMajorTickUnit(1);
         slider.setMinorTickCount(0);
 
+        //BARCHART
 
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Klokken");
@@ -116,7 +152,7 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
 
         barChart.getData().add(dataSeries1);
-        barChart.setPrefSize(700,600);
+        barChart.setPrefSize(600,500);
 
         menuButton.setMinSize(125,25);
 
@@ -127,26 +163,24 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(leftVbox,1,1);
         gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "515458",13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "353",13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "654655",13)));
-        Label label = new Label();
-        label.setText("Dag " + "1");
-        label.setFont(new Font("Arial", 14));
-        label.setTextFill(Color.BLACK);
-        buttomVbox.getChildren().add(label);
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", total + " Kw/t",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", data,13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", data,13)));
+        Label dayChooser = new Label();
+        dayChooser.setText("Dag " + "1");
+        dayChooser.setFont(new Font("Arial", 14));
+        dayChooser.setTextFill(Color.BLACK);
+        buttomVbox.getChildren().add(dayChooser);
 
-
+        //slider listener. changes the day you choose in slider
         slider.valueProperty().addListener((observableValue, number, t1) -> {
             double chosenDay = slider.getValue();
             slider.setValue(chosenDay);
             String stringChosenDay = String.valueOf(Math.round(chosenDay));
-            label.setText("Dag " + stringChosenDay);
+            dayChooser.setText("Dag " + stringChosenDay);
         });
 
-        buttomVbox.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(true);
-        gridPane.setAlignment(Pos.TOP_LEFT);
+
 
 
         //Her kan du se antal rows og columns
