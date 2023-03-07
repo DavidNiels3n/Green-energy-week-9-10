@@ -23,35 +23,44 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
 
-        String data = "";
-        String id = "";
-        String tidOgDato = "";
-        String sId = "";
-        String total = "";
+
+
+        ArrayList<String> idList = new ArrayList<>();
+        ArrayList<String> tidOgDatoList = new ArrayList<>();
+        ArrayList<String> sIdList = new ArrayList<>();
+        ArrayList<String> totalList = new ArrayList<>();
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split("\t");
-                id = parts[0];
-                tidOgDato = parts[1];
-                sId = parts[2];
-                total = parts[3];
-                // Do something with the data here
+                idList.add(parts[0]);
+                tidOgDatoList.add(parts[1]);
+                sIdList.add(parts[2]);
+                totalList.add(parts[3]);
                 line = reader.readLine();
-
             }
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        String totalEnergyMadePreJanuary = totalList.get(1);
+        int totalEnergyMadePreJanuaryInt = Integer.parseInt(totalEnergyMadePreJanuary);
+        System.out.println(totalEnergyMadePreJanuaryInt);
+        int totalListLength = totalList.size()-1;
+        String totalEnergyMadePostJanuary = totalList.get(totalListLength);
+        int totalEnergyMadePostJanuaryInt = Integer.parseInt(totalEnergyMadePostJanuary);
+        int totalEnergyMadeInJanuary = totalEnergyMadePostJanuaryInt - totalEnergyMadePreJanuaryInt;
+        String totalEnergyMadeFromJan1ToJan31 = String.valueOf(totalEnergyMadeInJanuary);
 
         GridPane gridPane = new GridPane();
         //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
@@ -75,31 +84,15 @@ public class GreenEnergyApplication extends Application {
 
         //Menu stuff
 
-        MenuItem flagNumber1 = new MenuItem("Anlæg Nummer 1 ");
-        MenuItem flagNumber2 = new MenuItem("Anlæg Nummer 2 ");
-        MenuItem flagNumber3 = new MenuItem("Anlæg Nummer 3 ");
-        MenuItem flagNumber4 = new MenuItem("Anlæg Nummer 4 ");
-        MenuItem flagNumber5 = new MenuItem("Anlæg Nummer 5");
-        MenuItem flagNumber6 = new MenuItem("Anlæg Nummer 6 ");
-        MenuItem flagNumber7 = new MenuItem("Anlæg Nummer 7 ");
-        MenuItem flagNumber8 = new MenuItem("Anlæg Nummer 8 ");
-        MenuItem flagNumber9 = new MenuItem("Anlæg Nummer 9 ");
-        MenuItem flagNumber10 = new MenuItem("Anlæg Nummer 10 ");
-        MenuItem flagNumber11 = new MenuItem("Anlæg Nummer 11");
-        MenuItem flagNumber12 = new MenuItem("Anlæg Nummer 12 ");
-        MenuItem flagNumber13 = new MenuItem("Anlæg Nummer 13 ");
-        MenuItem flagNumber14 = new MenuItem("Anlæg Nummer 14 ");
-        MenuItem flagNumber15 = new MenuItem("Anlæg Nummer 15 ");
-        MenuItem flagNumber16 = new MenuItem("Anlæg Nummer 16 ");
-        MenuItem flagNumber17 = new MenuItem("Anlæg Nummer 17 ");
-        MenuItem flagNumber18 = new MenuItem("Anlæg Nummer 18 ");
-        MenuItem flagNumber19 = new MenuItem("Anlæg Nummer 19 ");
-        MenuItem flagNumber20 = new MenuItem("Anlæg Nummer 20 ");
-
-        MenuButton menuButton = new MenuButton("Anlæg", null, flagNumber1,flagNumber2,flagNumber3,flagNumber4,flagNumber5,flagNumber6,flagNumber7,flagNumber8,flagNumber9,flagNumber10,
-                flagNumber11,flagNumber12,flagNumber13,flagNumber14,flagNumber15,flagNumber16,flagNumber17,flagNumber18,flagNumber19,flagNumber20);
-
-
+        int numberOfFlags = 20; // specify the number of menu items to create
+        MenuButton menuButton = new MenuButton("Anlæg");
+        for (int i = 1; i <= numberOfFlags; i++) {
+            MenuItem flagNumber = new MenuItem("Anlæg Nummer " + i);
+            flagNumber.setOnAction(event -> {
+                // handle menu item click event here
+            });
+            menuButton.getItems().add(flagNumber);
+        }
        // Makes sure the program starts in the middle of the screen
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
@@ -163,9 +156,9 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(leftVbox,1,1);
         gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", total + " Kw/t",13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", data,13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", data,13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ",totalEnergyMadeFromJan1ToJan31 + " Kw/t",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", idList.get(0),13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", idList.get(0),13)));
         Label dayChooser = new Label();
         dayChooser.setText("Dag " + "1");
         dayChooser.setFont(new Font("Arial", 14));
