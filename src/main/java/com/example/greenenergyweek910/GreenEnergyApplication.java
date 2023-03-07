@@ -11,7 +11,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -21,7 +23,9 @@ public class GreenEnergyApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         GridPane gridPane = new GridPane();
+        ImageView background = new ImageView("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\—Pngtree—beautiful nature blue sky with_5499997.png");
         Scene scene = new Scene(gridPane);
+        Slider slider = new Slider(1,31,1);
 
         MenuItem flagNumber1 = new MenuItem("Anlæg Nummer 1 ");
         MenuItem flagNumber2 = new MenuItem("Anlæg Nummer 2 ");
@@ -54,7 +58,7 @@ public class GreenEnergyApplication extends Application {
         stage.show();
         gridPane.setHgap(50);
         gridPane.setVgap(50);
-        stage.setWidth(1100);
+        stage.setWidth(1400);
         stage.setHeight(800);
 
        // Makes sure the program starts in the middle of the screen
@@ -62,6 +66,13 @@ public class GreenEnergyApplication extends Application {
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
 
+
+        //slider
+        slider.setShowTickMarks(true);
+        slider.setShowTickLabels(true);
+        slider.setSnapToTicks(true);
+        slider.setMajorTickUnit(1);
+        slider.setMinorTickCount(0);
 
 
 
@@ -112,9 +123,15 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
         barChart.getData().add(dataSeries1);
         barChart.setMinSize(900,450);
-        gridPane.add(barChart,3,3,3,3);
+        menuButton.setMinSize(125,20);
+
+        //Add to gridpane
+        gridPane.add(barChart,2,2);
+        gridPane.add(menuButton,1,1);
+        gridPane.add(slider,2,3);
+        gridPane.addRow(3);
+        gridPane.addColumn(3);
         //gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(menuButton,0,0,1,1);
 
     }
 
