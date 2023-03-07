@@ -25,13 +25,20 @@ public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+
         GridPane gridPane = new GridPane();
         //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
         VBox leftVbox = new VBox();
         VBox rightVbox = new VBox();
+        VBox buttomVbox = new VBox();
         Scene scene = new Scene(gridPane);
         Slider slider = new Slider(1,31,1);
-
+        stage.setTitle("Green Energy");
+        stage.setScene(scene);
+        stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        stage.show();
+        stage.setWidth(gridPane.getWidth());
+        stage.setHeight(gridPane.getHeight());
 
         MenuItem flagNumber1 = new MenuItem("Anlæg Nummer 1 ");
         MenuItem flagNumber2 = new MenuItem("Anlæg Nummer 2 ");
@@ -57,15 +64,6 @@ public class GreenEnergyApplication extends Application {
         MenuButton menuButton = new MenuButton("Anlæg", null, flagNumber1,flagNumber2,flagNumber3,flagNumber4,flagNumber5,flagNumber6,flagNumber7,flagNumber8,flagNumber9,flagNumber10,
                 flagNumber11,flagNumber12,flagNumber13,flagNumber14,flagNumber15,flagNumber16,flagNumber17,flagNumber18,flagNumber19,flagNumber20);
 
-
-        stage.setTitle("Green Energy");
-        stage.setScene(scene);
-        stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\download.jpg")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        stage.show();
-//        gridPane.setHgap(50);
-//        gridPane.setVgap(50);
-        stage.setWidth(1400);
-        stage.setHeight(800);
 
        // Makes sure the program starts in the middle of the screen
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -118,7 +116,7 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
 
         barChart.getData().add(dataSeries1);
-        barChart.setPrefSize(900,500);
+        barChart.setPrefSize(700,600);
 
         menuButton.setMinSize(125,25);
 
@@ -127,13 +125,29 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(slider,2,2);
         gridPane.add(rightVbox,3,1);
         gridPane.add(leftVbox,1,1);
+        gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
         rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "515458",13)));
         rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "353",13)));
         rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "654655",13)));
+        Label label = new Label();
+        label.setText("Dag " + "1");
+        label.setFont(new Font("Arial", 14));
+        label.setTextFill(Color.BLACK);
+        buttomVbox.getChildren().add(label);
 
+
+        slider.valueProperty().addListener((observableValue, number, t1) -> {
+            double chosenDay = slider.getValue();
+            slider.setValue(chosenDay);
+            String stringChosenDay = String.valueOf(Math.round(chosenDay));
+            label.setText("Dag " + stringChosenDay);
+        });
+
+        buttomVbox.setAlignment(Pos.CENTER);
         gridPane.setGridLinesVisible(true);
-        gridPane.setAlignment(Pos.TOP_CENTER);
+        gridPane.setAlignment(Pos.TOP_LEFT);
+
 
         //Her kan du se antal rows og columns
         System.out.println(gridPane.getRowCount());
