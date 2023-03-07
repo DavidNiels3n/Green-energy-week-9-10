@@ -13,6 +13,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -23,9 +26,12 @@ public class GreenEnergyApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         GridPane gridPane = new GridPane();
-        ImageView background = new ImageView("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\—Pngtree—beautiful nature blue sky with_5499997.png");
+        //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
+        VBox leftVbox = new VBox();
+        VBox rightVbox = new VBox();
         Scene scene = new Scene(gridPane);
         Slider slider = new Slider(1,31,1);
+
 
         MenuItem flagNumber1 = new MenuItem("Anlæg Nummer 1 ");
         MenuItem flagNumber2 = new MenuItem("Anlæg Nummer 2 ");
@@ -56,8 +62,8 @@ public class GreenEnergyApplication extends Application {
         stage.setScene(scene);
         stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\download.jpg")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         stage.show();
-        gridPane.setHgap(50);
-        gridPane.setVgap(50);
+//        gridPane.setHgap(50);
+//        gridPane.setVgap(50);
         stage.setWidth(1400);
         stage.setHeight(800);
 
@@ -74,17 +80,6 @@ public class GreenEnergyApplication extends Application {
         slider.setMajorTickUnit(1);
         slider.setMinorTickCount(0);
 
-
-
-        //Her kan du se antal rows og columns
-        gridPane.getColumnCount();
-        gridPane.getRowCount();
-        System.out.println(gridPane.getRowCount());
-        System.out.println(gridPane.getColumnCount());
-
-        //Her kan vi adde rows og columns ved dog ikke om vi bruger anchorpane nu?
-        //gridPane.addColumn();
-        //gridPane.addRow();
 
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Klokken");
@@ -121,20 +116,36 @@ public class GreenEnergyApplication extends Application {
         dataSeries1.getData().add(new XYChart.Data("21:00", 0));
         dataSeries1.getData().add(new XYChart.Data("22:00"  , 0));
         dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
+
         barChart.getData().add(dataSeries1);
-        barChart.setMinSize(900,450);
-        menuButton.setMinSize(125,20);
+        barChart.setPrefSize(900,500);
+
+        menuButton.setMinSize(125,25);
 
         //Add to gridpane
-        gridPane.add(barChart,2,2);
-        gridPane.add(menuButton,1,1);
-        gridPane.add(slider,2,3);
-        gridPane.addRow(3);
-        gridPane.addColumn(3);
-        //gridPane.setAlignment(Pos.CENTER);
+        gridPane.add(barChart,2,1);
+        gridPane.add(slider,2,2);
+        gridPane.add(rightVbox,3,1);
+        gridPane.add(leftVbox,1,1);
+        leftVbox.getChildren().add(menuButton);
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "515458",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "353",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", "654655",13)));
 
+        gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.TOP_CENTER);
+
+        //Her kan du se antal rows og columns
+        System.out.println(gridPane.getRowCount());
+        System.out.println(gridPane.getColumnCount());
     }
 
+    public Label createLabel(String labelText, String Data, int fontSize) {
+        Label label = new Label(labelText + Data);
+        label.setFont(new Font("Arial", fontSize));
+        label.setTextFill(Color.BLACK);
+        return label;
+    }
     public static void main(String[] args) {
         launch();
     }
