@@ -1,7 +1,6 @@
 package com.example.greenenergyweek910;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -10,30 +9,23 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-
-
 
         ArrayList<String> idList = new ArrayList<>();
         ArrayList<String> tidOgDatoList = new ArrayList<>();
@@ -42,9 +34,8 @@ public class GreenEnergyApplication extends Application {
         ArrayList<String> onlineProd = new ArrayList<>();
 
 
-
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\tfm\\IdeaProjects\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split("\t");
@@ -59,6 +50,39 @@ public class GreenEnergyApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Map<String, List<String>> groupedData = new HashMap<>();
+        for (int i = 0; i < tidOgDatoList.size(); i++) {
+            String date = tidOgDatoList.get(i).substring(0, 10);
+            String data = idList.get(i) + "\t" + tidOgDatoList.get(i) + "\t" + sIdList.get(i) + "\t" + totalList.get(i) + "\t" + onlineProd.get(i);
+            if (groupedData.containsKey(date)) {
+                groupedData.get(date).add(data);
+            } else {
+                List<String> dataList = new ArrayList<>();
+                dataList.add(data);
+                groupedData.put(date, dataList);
+            }
+        }
+        Map<String, List<String>> groups = new HashMap<>();
+        for (int i = 0; i < idList.size(); i++) {
+            String date = tidOgDatoList.get(i).split(" ")[0]; // extract the date from the timestamp
+            if (!groups.containsKey(date)) {
+                groups.put(date, new ArrayList<>());
+            }
+            String data = idList.get(i) + "\t" + tidOgDatoList.get(i) + "\t" + sIdList.get(i) + "\t" + totalList.get(i) + "\t" + onlineProd.get(i);
+            groups.get(date).add(data);
+        }
+
+// print out the groups
+        for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
+            String date = entry.getKey();
+            List<String> groupData = entry.getValue();
+            System.out.println("Data for " + date + ":");
+            for (String data : groupData) {
+                System.out.println(data);
+            }
+        }
+
 
         ArrayList<Integer> totalListInt = new ArrayList<>();
         for (String str : totalList) {
@@ -95,7 +119,7 @@ public class GreenEnergyApplication extends Application {
         Slider slider = new Slider(1,31,1);
         stage.setTitle("Green Energy");
         stage.setScene(scene);
-        stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        //stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         stage.show();
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
@@ -105,10 +129,9 @@ public class GreenEnergyApplication extends Application {
 
 
 
-
         //Menu stuff
 
-        int numberOfFlags = 40; // specify the number of menu items to create
+        int numberOfFlags = 60; // specify the number of menu items to create
         MenuButton menuButton = new MenuButton("Anlæg");
         for (int i = 1; i <= numberOfFlags; i++) {
             MenuItem flagNumber = new MenuItem("Anlæg Nummer " + i);
@@ -199,8 +222,6 @@ public class GreenEnergyApplication extends Application {
         });
 
 
-
-
         //Her kan du se antal rows og columns
         System.out.println(gridPane.getRowCount());
         System.out.println(gridPane.getColumnCount());
@@ -212,6 +233,11 @@ public class GreenEnergyApplication extends Application {
         label.setTextFill(Color.BLACK);
         return label;
     }
+
+
+
+
+
     public static void main(String[] args) {
         launch();
     }
