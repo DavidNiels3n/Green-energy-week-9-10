@@ -23,7 +23,11 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GreenEnergyApplication extends Application {
     @Override
@@ -31,11 +35,13 @@ public class GreenEnergyApplication extends Application {
 
 
 
-
         ArrayList<String> idList = new ArrayList<>();
         ArrayList<String> tidOgDatoList = new ArrayList<>();
         ArrayList<String> sIdList = new ArrayList<>();
         ArrayList<String> totalList = new ArrayList<>();
+        ArrayList<String> onlineProd = new ArrayList<>();
+
+
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
@@ -46,6 +52,7 @@ public class GreenEnergyApplication extends Application {
                 tidOgDatoList.add(parts[1]);
                 sIdList.add(parts[2]);
                 totalList.add(parts[3]);
+                onlineProd.add(parts[4]);
                 line = reader.readLine();
             }
             reader.close();
@@ -53,16 +60,31 @@ public class GreenEnergyApplication extends Application {
             e.printStackTrace();
         }
 
+        ArrayList<Integer> totalListInt = new ArrayList<>();
+        for (String str : totalList) {
+            totalListInt.add(Integer.parseInt(str));
+        }
 
 
-        String totalEnergyMadePreJanuary = totalList.get(1);
-        int totalEnergyMadePreJanuaryInt = Integer.parseInt(totalEnergyMadePreJanuary);
-        System.out.println(totalEnergyMadePreJanuaryInt);
-        int totalListLength = totalList.size()-1;
-        String totalEnergyMadePostJanuary = totalList.get(totalListLength);
-        int totalEnergyMadePostJanuaryInt = Integer.parseInt(totalEnergyMadePostJanuary);
-        int totalEnergyMadeInJanuary = totalEnergyMadePostJanuaryInt - totalEnergyMadePreJanuaryInt;
-        String totalEnergyMadeFromJan1ToJan31 = String.valueOf(totalEnergyMadeInJanuary);
+        long number2 = 0;
+        long totalPreJan = 0;
+        for (int i = 0; i < 60*24 ;i+=24) {
+
+            totalPreJan = number2 += totalListInt.get(i);
+           // System.out.println( totalPreJan );
+        }
+        long number3 = 0;
+        long totalPostJan = 0;
+        
+        for (int i = totalListInt.size()-1; i > totalListInt.size()-1 - 60*24; i-=24) {
+
+            totalPostJan = number3 += totalListInt.get(i);
+           // System.out.println( totalPostJan );
+        }
+
+        long totalProdJan = totalPreJan - totalPostJan;
+
+        System.out.println(totalProdJan);
 
         GridPane gridPane = new GridPane();
         //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
@@ -78,7 +100,7 @@ public class GreenEnergyApplication extends Application {
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
         buttomVbox.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(true);
+      //  gridPane.setGridLinesVisible(true);
         gridPane.setAlignment(Pos.TOP_LEFT);
 
 
@@ -158,14 +180,15 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(leftVbox,1,1);
         gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ",totalEnergyMadeFromJan1ToJan31 + " Kw/t",13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", idList.get(0),13)));
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", idList.get(0),13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", " Kw/t",13)));
+        rightVbox.getChildren().add((createLabel("Dagen med den mindste produktion: ", idList.get(0),13)));
+        rightVbox.getChildren().add((createLabel("Dagen med den største produktion: ", idList.get(0),13)));
         Label dayChooser = new Label();
         dayChooser.setText("Dag " + "1");
         dayChooser.setFont(new Font("Arial", 14));
         dayChooser.setTextFill(Color.BLACK);
         buttomVbox.getChildren().add(dayChooser);
+        rightVbox.setAlignment(Pos.CENTER_LEFT);
 
         //slider listener. changes the day you choose in slider
         slider.valueProperty().addListener((observableValue, number, t1) -> {
