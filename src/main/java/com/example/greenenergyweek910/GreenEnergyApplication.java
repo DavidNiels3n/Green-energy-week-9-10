@@ -83,7 +83,7 @@ public class GreenEnergyApplication extends Application {
             }
         }
 
-
+//
         ArrayList<Integer> totalListInt = new ArrayList<>();
         for (String str : totalList) {
             totalListInt.add(Integer.parseInt(str));
