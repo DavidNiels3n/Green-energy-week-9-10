@@ -1,7 +1,6 @@
 package com.example.greenenergyweek910;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -11,30 +10,26 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-
 
 
         ArrayList<String> idList = new ArrayList<>();
@@ -42,6 +37,7 @@ public class GreenEnergyApplication extends Application {
         ArrayList<String> sIdList = new ArrayList<>();
         ArrayList<String> totalList = new ArrayList<>();
         ArrayList<String> onlineProd = new ArrayList<>();
+
         ArrayList<String> sIdNoDupes = new ArrayList<>();
         ArrayList<String> locations = new ArrayList<>();
         ArrayList<Integer> onlineProdIntArr = new ArrayList<>();
@@ -92,39 +88,22 @@ public class GreenEnergyApplication extends Application {
             List<String> groupData = entry.getValue();
             // System.out.println("Data for " + date + ":");
             for (String data : groupData) {
-//                System.out.println(data);
+                System.out.println(data);
             }
         }
 
-//
         ArrayList<Integer> totalListInt = new ArrayList<>();
-        for (String str : totalList) {
-            totalListInt.add(Integer.parseInt(str));
+        for (String str : onlineProd) {
+            onlineProdIntArr.add(Integer.parseInt(str));
         }
-
 
         long number2 = 0;
-        long totalPreJan = 0;
-        for (int i = 0; i < 70*24 ;i+=24) {
+        long onlineProdInt = 0;
+        for (int i = 0; i < onlineProdIntArr.size()-1 ;i++) {
 
-            totalPreJan = number2 += totalListInt.get(i);
-           // System.out.println( totalPreJan );
+            onlineProdInt = number2 += onlineProdIntArr.get(i);
+            System.out.println( onlineProdInt );
         }
-        long number3 = 0;
-        long totalPostJan = 0;
-
-        for (int i = totalListInt.size()-1; i > totalListInt.size()-1 - 70*24; i-=24) {
-
-            totalPostJan = number3 += totalListInt.get(i);
-           // System.out.println( totalPostJan );
-        }
-
-        long totalProdJan = totalPreJan - totalPostJan;
-        String totalProdJanString = Long.toString(totalProdJan);
-        // System.out.println(totalProdJan);
-
-
-       //  System.out.println(sIdListNoDupes.size());
 
 
         GridPane gridPane = new GridPane();
@@ -141,7 +120,6 @@ public class GreenEnergyApplication extends Application {
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
         buttomVbox.setAlignment(Pos.CENTER);
-      //  gridPane.setGridLinesVisible(true);
         gridPane.setAlignment(Pos.TOP_LEFT);
 
 
@@ -161,6 +139,7 @@ public class GreenEnergyApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Collections.sort(locations);
 
         HashMap<String,String> sIdToLocation = new HashMap<>();
@@ -180,13 +159,14 @@ public class GreenEnergyApplication extends Application {
             MenuItem menuItem = new MenuItem(location); // use location as label
             menuItem.setUserData(sId); // set sId as user data
             menuItem.setOnAction(event -> {
-                String selectedSId = (String) menuItem.getUserData();
+                String selectedLocation = (String) menuItem.getText();
+                String selectedSId = ((String) menuItem.getUserData()); // assign value to selectedSId
                 // handle menu item click event here
                 System.out.println(selectedSId);
+                menuButton.setText(selectedLocation);
             });
             menuButton.getItems().add(menuItem);
         }
-
 
 
 
@@ -253,7 +233,7 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(leftVbox,1,1);
         gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: " + totalProdJanString,"Kw/t",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: " + onlineProdInt,"Kw/t",13)));
         rightVbox.getChildren().add((createLabel("Dagen med den mindste produktion: ", idList.get(0),13)));
         rightVbox.getChildren().add((createLabel("Dagen med den største produktion: ", idList.get(0),13)));
         Label dayChooser = new Label();
