@@ -1,6 +1,7 @@
 package com.example.greenenergyweek910;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -9,33 +10,44 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.math.BigInteger;
+import java.util.*;
 
 public class GreenEnergyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+
+
 
         ArrayList<String> idList = new ArrayList<>();
         ArrayList<String> tidOgDatoList = new ArrayList<>();
         ArrayList<String> sIdList = new ArrayList<>();
         ArrayList<String> totalList = new ArrayList<>();
         ArrayList<String> onlineProd = new ArrayList<>();
-
+        ArrayList<String> sIdNoDupes = new ArrayList<>();
+        ArrayList<String> locations = new ArrayList<>();
+        ArrayList<Integer> onlineProdIntArr = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\tfm\\IdeaProjects\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split("\t");
@@ -63,6 +75,7 @@ public class GreenEnergyApplication extends Application {
                 groupedData.put(date, dataList);
             }
         }
+
         Map<String, List<String>> groups = new HashMap<>();
         for (int i = 0; i < idList.size(); i++) {
             String date = tidOgDatoList.get(i).split(" ")[0]; // extract the date from the timestamp
@@ -77,9 +90,9 @@ public class GreenEnergyApplication extends Application {
         for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
             String date = entry.getKey();
             List<String> groupData = entry.getValue();
-            System.out.println("Data for " + date + ":");
+            // System.out.println("Data for " + date + ":");
             for (String data : groupData) {
-                System.out.println(data);
+//                System.out.println(data);
             }
         }
 
@@ -92,7 +105,7 @@ public class GreenEnergyApplication extends Application {
 
         long number2 = 0;
         long totalPreJan = 0;
-        for (int i = 0; i < 60*24 ;i+=24) {
+        for (int i = 0; i < 70*24 ;i+=24) {
 
             totalPreJan = number2 += totalListInt.get(i);
            // System.out.println( totalPreJan );
@@ -100,7 +113,7 @@ public class GreenEnergyApplication extends Application {
         long number3 = 0;
         long totalPostJan = 0;
 
-        for (int i = totalListInt.size()-1; i > totalListInt.size()-1 - 60*24; i-=24) {
+        for (int i = totalListInt.size()-1; i > totalListInt.size()-1 - 70*24; i-=24) {
 
             totalPostJan = number3 += totalListInt.get(i);
            // System.out.println( totalPostJan );
@@ -108,7 +121,11 @@ public class GreenEnergyApplication extends Application {
 
         long totalProdJan = totalPreJan - totalPostJan;
         String totalProdJanString = Long.toString(totalProdJan);
-        System.out.println(totalProdJan);
+        // System.out.println(totalProdJan);
+
+
+       //  System.out.println(sIdListNoDupes.size());
+
 
         GridPane gridPane = new GridPane();
         //ImageView background = new ImageView(getClass().getResource("/images/--Pngtree--beautiful nature blue sky with_5499997.png").toString());
@@ -119,7 +136,7 @@ public class GreenEnergyApplication extends Application {
         Slider slider = new Slider(1,31,1);
         stage.setTitle("Green Energy");
         stage.setScene(scene);
-        //stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         stage.show();
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
@@ -129,17 +146,50 @@ public class GreenEnergyApplication extends Application {
 
 
 
-        //Menu stuff
 
-        int numberOfFlags = 60; // specify the number of menu items to create
-        MenuButton menuButton = new MenuButton("Anlæg");
-        for (int i = 1; i <= numberOfFlags; i++) {
-            MenuItem flagNumber = new MenuItem("Anlæg Nummer " + i);
-            flagNumber.setOnAction(event -> {
-                // handle menu item click event here
-            });
-            menuButton.getItems().add(flagNumber);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\f056c528-f5f4-4ce9-b6d9-5562174c030f (1).csv"));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] parts = line.split(",");
+                sIdNoDupes.add(parts[1]);
+                locations.add(parts[4]);
+                line = reader.readLine();
+            }
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Collections.sort(locations);
+
+        HashMap<String,String> sIdToLocation = new HashMap<>();
+        for (int i = 0; i < sIdNoDupes.size()-1 ; i++) {
+            sIdToLocation.put(sIdNoDupes.get(i), locations.get(i));
+        }
+
+        HashSet<String> sIdSetNoDupes = new HashSet<>(sIdList);
+        ArrayList<String> sIdListNoDupes = new ArrayList<>(sIdSetNoDupes);
+
+        int numberOfFlags = sIdListNoDupes.size();
+
+        MenuButton menuButton = new MenuButton("Anlæg");
+        for (int i = 0; i < 63; i++) {
+            String sId = sIdListNoDupes.get(i);
+            String location = locations.get(i);
+            MenuItem menuItem = new MenuItem(location); // use location as label
+            menuItem.setUserData(sId); // set sId as user data
+            menuItem.setOnAction(event -> {
+                String selectedSId = (String) menuItem.getUserData();
+                // handle menu item click event here
+                System.out.println(selectedSId);
+            });
+            menuButton.getItems().add(menuItem);
+        }
+
+
+
+
        // Makes sure the program starts in the middle of the screen
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
@@ -222,9 +272,11 @@ public class GreenEnergyApplication extends Application {
         });
 
 
+
+
         //Her kan du se antal rows og columns
-        System.out.println(gridPane.getRowCount());
-        System.out.println(gridPane.getColumnCount());
+//        System.out.println(gridPane.getRowCount());
+//        System.out.println(gridPane.getColumnCount());
     }
 
     public Label createLabel(String labelText, String Data, int fontSize) {

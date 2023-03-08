@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 public class BiggestProductionDay implements Pattern{
 
-    public void calcBiggestDay(){
-
+    @Override
+    public void algorithm() {
 
     }
-
 }
