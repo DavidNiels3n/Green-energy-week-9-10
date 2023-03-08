@@ -99,7 +99,7 @@ public class GreenEnergyApplication extends Application {
         }
         long number3 = 0;
         long totalPostJan = 0;
-        
+
         for (int i = totalListInt.size()-1; i > totalListInt.size()-1 - 60*24; i-=24) {
 
             totalPostJan = number3 += totalListInt.get(i);
@@ -107,7 +107,7 @@ public class GreenEnergyApplication extends Application {
         }
 
         long totalProdJan = totalPreJan - totalPostJan;
-
+        String totalProdJanString = Long.toString(totalProdJan);
         System.out.println(totalProdJan);
 
         GridPane gridPane = new GridPane();
@@ -203,7 +203,7 @@ public class GreenEnergyApplication extends Application {
         gridPane.add(leftVbox,1,1);
         gridPane.add(buttomVbox,2,3);
         leftVbox.getChildren().add(menuButton);
-        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: ", " Kw/t",13)));
+        rightVbox.getChildren().add((createLabel("Den summerede energiproduktion for måneden: " + totalProdJanString,"Kw/t",13)));
         rightVbox.getChildren().add((createLabel("Dagen med den mindste produktion: ", idList.get(0),13)));
         rightVbox.getChildren().add((createLabel("Dagen med den største produktion: ", idList.get(0),13)));
         Label dayChooser = new Label();
