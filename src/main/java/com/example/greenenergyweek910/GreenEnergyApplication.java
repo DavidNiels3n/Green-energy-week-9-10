@@ -53,6 +53,8 @@ public class GreenEnergyApplication extends Application {
             e.printStackTrace();
         }
 
+
+
         String totalEnergyMadePreJanuary = totalList.get(1);
         int totalEnergyMadePreJanuaryInt = Integer.parseInt(totalEnergyMadePreJanuary);
         System.out.println(totalEnergyMadePreJanuaryInt);
@@ -84,7 +86,7 @@ public class GreenEnergyApplication extends Application {
 
         //Menu stuff
 
-        int numberOfFlags = 20; // specify the number of menu items to create
+        int numberOfFlags = 40; // specify the number of menu items to create
         MenuButton menuButton = new MenuButton("Anlæg");
         for (int i = 1; i <= numberOfFlags; i++) {
             MenuItem flagNumber = new MenuItem("Anlæg Nummer " + i);
