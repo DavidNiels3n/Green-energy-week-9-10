@@ -33,14 +33,10 @@ public class GreenEnergyApplication extends Application {
 
 
         ArrayList<String> idList = new ArrayList<>();
-
         ArrayList<String> sIdList = new ArrayList<>();
         ArrayList<String> totalList = new ArrayList<>();
         ArrayList<String> onlineProd = new ArrayList<>();
-
         ArrayList<String> tidOgDatoList = new ArrayList<>();
-
-
         ArrayList<String> sIdNoDupes = new ArrayList<>();
         ArrayList<String> locations = new ArrayList<>();
         ArrayList<Integer> onlineProdIntArr = new ArrayList<>();
@@ -73,7 +69,6 @@ public class GreenEnergyApplication extends Application {
         dato.addAll(setWithoutDuplicates);
         Collections.sort(dato);
         System.out.println(dato);
-
 
 
 
@@ -268,6 +263,7 @@ public class GreenEnergyApplication extends Application {
         label.setTextFill(Color.BLACK);
         return label;
     }
+
 
 
 
