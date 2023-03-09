@@ -33,17 +33,20 @@ public class GreenEnergyApplication extends Application {
 
 
         ArrayList<String> idList = new ArrayList<>();
-        ArrayList<String> tidOgDatoList = new ArrayList<>();
+
         ArrayList<String> sIdList = new ArrayList<>();
         ArrayList<String> totalList = new ArrayList<>();
         ArrayList<String> onlineProd = new ArrayList<>();
+
+        ArrayList<String> tidOgDatoList = new ArrayList<>();
+
 
         ArrayList<String> sIdNoDupes = new ArrayList<>();
         ArrayList<String> locations = new ArrayList<>();
         ArrayList<Integer> onlineProdIntArr = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Desktop\\Green-energy-week-9-10-master\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split("\t");
@@ -58,6 +61,22 @@ public class GreenEnergyApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ArrayList<String> dato = new ArrayList<>();
+        for (int i = 0; i < tidOgDatoList.size(); i++) {
+            String date1 = tidOgDatoList.get(i);
+            date1 = date1.substring(0, 10);
+            dato.add(date1);
+        }
+        HashSet<String> setWithoutDuplicates = new HashSet<String>(dato);
+        dato.clear();
+        dato.addAll(setWithoutDuplicates);
+        Collections.sort(dato);
+        System.out.println(dato);
+
+
+
+
 
         Map<String, List<String>> groupedData = new HashMap<>();
         for (int i = 0; i < tidOgDatoList.size(); i++) {
@@ -88,7 +107,7 @@ public class GreenEnergyApplication extends Application {
             List<String> groupData = entry.getValue();
             // System.out.println("Data for " + date + ":");
             for (String data : groupData) {
-                System.out.println(data);
+                // System.out.println(data);
             }
         }
 
@@ -102,7 +121,7 @@ public class GreenEnergyApplication extends Application {
         for (int i = 0; i < onlineProdIntArr.size()-1 ;i++) {
 
             onlineProdInt = number2 += onlineProdIntArr.get(i);
-            System.out.println( onlineProdInt );
+            // System.out.println( onlineProdInt );
         }
 
 
@@ -115,7 +134,7 @@ public class GreenEnergyApplication extends Application {
         Slider slider = new Slider(1,31,1);
         stage.setTitle("Green Energy");
         stage.setScene(scene);
-        stage.getIcons().add(new Image("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        stage.getIcons().add(new Image("C:\\Users\\David\\Desktop\\Green-energy-week-9-10-master\\src\\main\\java\\com\\example\\greenenergyweek910\\projekt-logo.png")); // ligger under src som download.jpg en lille fin sol <3 husk backslahes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         stage.show();
         stage.setWidth(gridPane.getWidth());
         stage.setHeight(gridPane.getHeight());
@@ -126,7 +145,7 @@ public class GreenEnergyApplication extends Application {
 
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Documents\\GitHub\\Green-energy-week-9-10\\src\\main\\java\\com\\example\\greenenergyweek910\\f056c528-f5f4-4ce9-b6d9-5562174c030f (1).csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Desktop\\Green-energy-week-9-10-master\\src\\main\\java\\com\\example\\greenenergyweek910\\f056c528-f5f4-4ce9-b6d9-5562174c030f (1).csv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split(",");
@@ -170,7 +189,7 @@ public class GreenEnergyApplication extends Application {
 
 
 
-       // Makes sure the program starts in the middle of the screen
+        // Makes sure the program starts in the middle of the screen
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
@@ -184,46 +203,26 @@ public class GreenEnergyApplication extends Application {
         slider.setMinorTickCount(0);
 
         //BARCHART
+        String[] timer = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23",};
 
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Klokken");
+        xAxis.setLabel("Time");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("KW/T");
+        yAxis.setLabel("Energy Generated (KW/T)");
 
-        BarChart barChart = new BarChart(xAxis, yAxis);
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
 
-        XYChart.Series dataSeries1 = new XYChart.Series();
-        dataSeries1.setName("Januar");
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Energy Production");
 
-        dataSeries1.getData().add(new XYChart.Data("00:00", 0));
-        dataSeries1.getData().add(new XYChart.Data("01:00"  , 0));
-        dataSeries1.getData().add(new XYChart.Data("02:00"  , 0));
-        dataSeries1.getData().add(new XYChart.Data("03:00", 0));
-        dataSeries1.getData().add(new XYChart.Data("04:00"  , 0));
-        dataSeries1.getData().add(new XYChart.Data("05:00"  , 0));
-        dataSeries1.getData().add(new XYChart.Data("06:00", 0));
-        dataSeries1.getData().add(new XYChart.Data("07:00"  , 5));
-        dataSeries1.getData().add(new XYChart.Data("08:00"  , 10));
-        dataSeries1.getData().add(new XYChart.Data("09:00", 15));
-        dataSeries1.getData().add(new XYChart.Data("10:00"  , 25));
-        dataSeries1.getData().add(new XYChart.Data("11:00"  , 40));
-        dataSeries1.getData().add(new XYChart.Data("12:00", 100));
-        dataSeries1.getData().add(new XYChart.Data("13:00"  , 150));
-        dataSeries1.getData().add(new XYChart.Data("14:00"  , 250));
-        dataSeries1.getData().add(new XYChart.Data("15:00", 150));
-        dataSeries1.getData().add(new XYChart.Data("16:00"  , 100));
-        dataSeries1.getData().add(new XYChart.Data("17:00"  , 40));
-        dataSeries1.getData().add(new XYChart.Data("18:00", 25));
-        dataSeries1.getData().add(new XYChart.Data("19:00"  , 20));
-        dataSeries1.getData().add(new XYChart.Data("20:00"  , 10));
-        dataSeries1.getData().add(new XYChart.Data("21:00", 0));
-        dataSeries1.getData().add(new XYChart.Data("22:00"  , 0));
-        dataSeries1.getData().add(new XYChart.Data("23:00"  , 0));
+        for (int i = 0; i < timer.length; i++) {
+            series.getData().add(new XYChart.Data<>(timer[i] + ":00", onlineProdIntArr.get(i)));
+        }
 
-        barChart.getData().add(dataSeries1);
+        barChart.getData().add(series);
+
         barChart.setPrefSize(600,500);
-
         menuButton.setMinSize(125,25);
 
         //Add to gridpane
@@ -249,6 +248,10 @@ public class GreenEnergyApplication extends Application {
             slider.setValue(chosenDay);
             String stringChosenDay = String.valueOf(Math.round(chosenDay));
             dayChooser.setText("Dag " + stringChosenDay);
+
+            int index = (int) chosenDay - 1;
+            String chosenTidOgDato = tidOgDatoList.get(index);
+            System.out.println("Chosen tidOgDato: " + chosenTidOgDato);
         });
 
 
@@ -265,8 +268,6 @@ public class GreenEnergyApplication extends Application {
         label.setTextFill(Color.BLACK);
         return label;
     }
-
-
 
 
 
