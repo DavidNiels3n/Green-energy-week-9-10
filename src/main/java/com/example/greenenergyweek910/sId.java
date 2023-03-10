@@ -1,6 +1,13 @@
 package com.example.greenenergyweek910;
 
-public class sId {
+import java.util.ArrayList;
+
+public class sId{
+
+
+    public void get(){
+
+    }
 
 
 }
