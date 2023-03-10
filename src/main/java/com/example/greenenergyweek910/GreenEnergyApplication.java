@@ -42,7 +42,7 @@ public class GreenEnergyApplication extends Application {
         ArrayList<Integer> onlineProdIntArr = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Desktop\\Green-energy-week-9-10-master\\src\\main\\java\\com\\example\\greenenergyweek910\\Udtræk af data fra solcelleanlæg.tsv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split("\t");
@@ -141,7 +141,7 @@ public class GreenEnergyApplication extends Application {
 
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(("user.dir")+"\\src\\main\\java\\com\\example\\greenenergyweek910\\f056c528-f5f4-4ce9-b6d9-5562174c030f (1).csv"));
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\David\\Desktop\\Green-energy-week-9-10-master\\src\\main\\java\\com\\example\\greenenergyweek910\\f056c528-f5f4-4ce9-b6d9-5562174c030f (1).csv"));
             String line = reader.readLine();
             while (line != null) {
                 String[] parts = line.split(",");
