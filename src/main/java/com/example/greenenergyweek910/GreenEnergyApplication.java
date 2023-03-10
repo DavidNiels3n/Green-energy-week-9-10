@@ -246,8 +246,8 @@ public class GreenEnergyApplication extends Application {
             dayChooser.setText("Dag " + stringChosenDay);
 
             int index = (int) chosenDay - 1;
-            String chosenTidOgDato = tidOgDatoList.get(index);
-            System.out.println("Chosen tidOgDato: " + chosenTidOgDato);
+            String chosenTidOgDato = dato.get(index);
+            System.out.println("Chosen Dato: " + chosenTidOgDato);
         });
 
 
